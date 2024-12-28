@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Permissions Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        button {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Browser Permissions Test</h1>
+    <button onclick="testCamera()">Test Camera</button>
+    <button onclick="testMicrophone()">Test Microphone</button>
+    <button onclick="testGeolocation()">Test Geolocation</button>
+    <button onclick="testBluetooth()">Test Bluetooth</button>
+    <button onclick="testUSB()">Test USB</button>
+
+    <div id="output"></div>
+
+    <script>
+        const output = document.getElementById('output');
+
+        function logMessage(message) {
+            output.innerHTML += `<p>${message}</p>`;
+        }
+
+        async function testCamera() {
+            try {
+                await navigator.mediaDevices.getUserMedia({ video: true });
+                logMessage('Camera access granted.');
+            } catch (error) {
+                logMessage(`Camera access denied: ${error.message}`);
+            }
+        }
+
+        async function testMicrophone() {
+            try {
+                await navigator.mediaDevices.getUserMedia({ audio: true });
+                logMessage('Microphone access granted.');
+            } catch (error) {
+                logMessage(`Microphone access denied: ${error.message}`);
+            }
+        }
+
+        function testGeolocation() {
+            if (!navigator.geolocation) {
+                logMessage('Geolocation is not supported by your browser.');
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    logMessage(`Geolocation access granted. Latitude: ${position.coords.latitude}, Longitude: ${position.coords.longitude}`);
+                },
+                (error) => {
+                    logMessage(`Geolocation access denied: ${error.message}`);
+                }
+            );
+        }
+
+        async function testBluetooth() {
+            if (!navigator.bluetooth) {
+                logMessage('Bluetooth is not supported by your browser.');
+                return;
+            }
+
+            try {
+                await navigator.bluetooth.requestDevice({ acceptAllDevices: true });
+                logMessage('Bluetooth access granted.');
+            } catch (error) {
+                logMessage(`Bluetooth access denied: ${error.message}`);
+            }
+        }
+
+        async function testUSB() {
+            if (!navigator.usb) {
+                logMessage('USB is not supported by your browser.');
+                return;
+            }
+
+            try {
+                await navigator.usb.requestDevice({ filters: [] });
+                logMessage('USB access granted.');
+            } catch (error) {
+                logMessage(`USB access denied: ${error.message}`);
+            }
+        }
+    </script>
+</body>
+</html>
