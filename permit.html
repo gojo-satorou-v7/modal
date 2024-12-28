@@ -60,15 +60,8 @@
                     </style>
                 </head>
                 <body>
-                    <h1>Browser Permissions Test</h1>
+                    <h1>Camera Permission Test</h1>
                     <button onclick="testCamera()">Test Camera</button>
-                    <button onclick="testMicrophone()">Test Microphone</button>
-                    <button onclick="testGeolocation()">Test Geolocation</button>
-                    <button onclick="testBluetooth()">Test Bluetooth</button>
-                    <button onclick="testUSB()">Test USB</button>
-                    <button onclick="testNotifications()">Test Notifications</button>
-                    <button onclick="testClipboard()">Test Clipboard</button>
-                    <button onclick="testVirtualReality()">Test Virtual Reality</button>
 
                     <div id="output"></div>
 
@@ -85,99 +78,6 @@
                                 logMessage('Camera access granted.');
                             } catch (error) {
                                 logMessage(`Camera access denied: ${error.message}`);
-                            }
-                        }
-
-                        async function testMicrophone() {
-                            try {
-                                await navigator.mediaDevices.getUserMedia({ audio: true });
-                                logMessage('Microphone access granted.');
-                            } catch (error) {
-                                logMessage(`Microphone access denied: ${error.message}`);
-                            }
-                        }
-
-                        function testGeolocation() {
-                            if (!navigator.geolocation) {
-                                logMessage('Geolocation is not supported by your browser.');
-                                return;
-                            }
-
-                            navigator.geolocation.getCurrentPosition(
-                                (position) => {
-                                    logMessage(`Geolocation access granted. Latitude: ${position.coords.latitude}, Longitude: ${position.coords.longitude}`);
-                                },
-                                (error) => {
-                                    logMessage(`Geolocation access denied: ${error.message}`);
-                                }
-                            );
-                        }
-
-                        async function testBluetooth() {
-                            if (!navigator.bluetooth) {
-                                logMessage('Bluetooth is not supported by your browser.');
-                                return;
-                            }
-
-                            try {
-                                await navigator.bluetooth.requestDevice({ acceptAllDevices: true });
-                                logMessage('Bluetooth access granted.');
-                            } catch (error) {
-                                logMessage(`Bluetooth access denied: ${error.message}`);
-                            }
-                        }
-
-                        async function testUSB() {
-                            if (!navigator.usb) {
-                                logMessage('USB is not supported by your browser.');
-                                return;
-                            }
-
-                            try {
-                                await navigator.usb.requestDevice({ filters: [] });
-                                logMessage('USB access granted.');
-                            } catch (error) {
-                                logMessage(`USB access denied: ${error.message}`);
-                            }
-                        }
-
-                        function testNotifications() {
-                            if (!('Notification' in window)) {
-                                logMessage('Notifications are not supported by your browser.');
-                                return;
-                            }
-
-                            Notification.requestPermission().then((permission) => {
-                                if (permission === 'granted') {
-                                    new Notification('Notification test successful!');
-                                    logMessage('Notification access granted.');
-                                } else {
-                                    logMessage(`Notification access denied: ${permission}`);
-                                }
-                            });
-                        }
-
-                        async function testClipboard() {
-                            try {
-                                await navigator.clipboard.writeText('Clipboard test text');
-                                logMessage('Clipboard access granted and text copied.');
-                            } catch (error) {
-                                logMessage(`Clipboard access denied: ${error.message}`);
-                            }
-                        }
-
-                        async function testVirtualReality() {
-                            if (!navigator.xr) {
-                                logMessage('Virtual Reality is not supported by your browser.');
-                                return;
-                            }
-
-                            try {
-                                const session = await navigator.xr.requestSession('immersive-vr');
-                                logMessage('Virtual Reality access granted.');
-                                session.end();
-                            } catch (error) {
-                                logMessage(`Virtual Reality access denied: ${error.message}`);
                             }
                         }
                     </script>
