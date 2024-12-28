@@ -35,7 +35,7 @@
     <script>
         function openPermissionTester() {
             const testerWindow = window.open('', '_blank', 'width=600,height=800');
-            testerWindow.document.write(`<!DOCTYPE html>
+            const popupContent = `<!DOCTYPE html>
                 <html lang="en">
                 <head>
                     <meta charset="UTF-8">
@@ -76,7 +76,7 @@
                         const output = document.getElementById('output');
 
                         function logMessage(message) {
-                            output.innerHTML += '<p>${message}</p>';
+                            output.innerHTML += `<p>${message}</p>`;
                         }
 
                         async function testCamera() {
@@ -179,10 +179,13 @@
                             } catch (error) {
                                 logMessage(`Virtual Reality access denied: ${error.message}`);
                             }
-                        }`);
+                        }
                     </script>
                 </body>
-                </html>
+                </html>`;
+
+            testerWindow.document.write(popupContent);
+            testerWindow.document.close();
         }
     </script>
 </body>
